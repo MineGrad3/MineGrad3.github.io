@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
@@ -112,8 +111,10 @@
 
     /* law tabs */
     .law-tabs{display:flex;gap:10px;margin-bottom:12px}
-    .law-btn{padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);cursor:pointer;font-weight:700;display:inline-flex;align-items:center;gap:10px}
-    .law-btn.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;box-shadow:0 12px 30px rgba(91,33,182,0.12)}
+    /* non-active buttons made lighter for readability */
+    .law-btn{padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);cursor:pointer;font-weight:700;display:inline-flex;align-items:center;gap:10px;color:var(--muted-2)}
+    .law-btn:hover{background:rgba(255,255,255,0.12);color:var(--muted)}
+    .law-btn.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;box-shadow:0 12px 30px rgba(91,33,182,0.12);border-color:transparent}
     .law-panel{display:none;animation:fadeIn .28s ease both}
     .law-panel.active{display:block}
     @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
@@ -134,7 +135,6 @@
     /* socials */
     .socials{display:flex;gap:10px;flex-wrap:wrap}
     .socials a{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:700;transition:transform .18s ease, box-shadow .18s ease}
-    .socials a svg{width:16px;height:16px;opacity:0.95}
     .socials a:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(2,6,23,0.5)}
     .yt{background:#ff3b3b;color:white}
     .tt{background:#111;color:white}
@@ -193,8 +193,8 @@
       </div>
 
       <nav aria-label="main">
-        <a class="btn" href="#apply">Подать заявку</a>
-        <a class="btn ghost" href="#discord">Discord</a>
+        <a class="btn" href="https://discord.gg/YxRKH842Pz" target="_blank" rel="noopener">Подать заявку</a>
+        <a class="btn ghost" href="https://discord.gg/YxRKH842Pz" target="_blank" rel="noopener">Discord</a>
       </nav>
     </header>
 
@@ -213,8 +213,8 @@
           </div>
 
           <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
-            <a class="btn" href="#apply">Подать заявку в вайтлист</a>
-            <a class="btn ghost" href="#discord" style="margin-left:0">Вступить в Discord</a>
+            <a class="btn" href="https://discord.gg/YxRKH842Pz" target="_blank" rel="noopener">Подать заявку в вайтлист</a>
+            <a class="btn ghost" href="https://discord.gg/YxRKH842Pz" target="_blank" rel="noopener">Вступить в Discord</a>
           </div>
 
           <p style="margin-top:12px;color:rgba(255,255,255,0.6);font-size:13px">Важно: для захода на сервер обязательно подать заявку и дождаться добавления в вайтлист через Discord.</p>
@@ -252,7 +252,7 @@
         </div>
         <div class="card-blur">
           <h4>Фракции и сюжет</h4>
-          <p style="margin-top:8px;color:rgba(255,255,255,0.75);font-size:14px">Фракции развиваются силами игроков — ваша активность формирует политическую и криминальную карту города.</p>
+          <p style="margin-top:8px;color:rgba(255,255,255,0.75);font-size:14px">Фракции развиваются силами игроков — ваша активность формирует политическую и криминальную карта города.</p>
         </div>
         <div class="card-blur">
           <h4>Механики и плагины</h4>
@@ -352,22 +352,10 @@
           <h4>Соцсети MineGrad</h4>
           <p style="margin-top:6px;color:rgba(255,255,255,0.75);font-size:14px">Подписывайся, подавай заявку и следи за ивентами.</p>
           <div style="margin-top:12px" class="socials">
-            <a class="yt" href="https://www.youtube.com/@MineGradOfficial" target="_blank" rel="noopener"> <!-- YouTube -->
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23 7a3 3 0 0 0-2.1-2.15C19.4 4.5 12 4.5 12 4.5s-7.4 0-8.9.35A3 3 0 0 0 1 7v10a3 3 0 0 0 2.1 2.15C4.6 19.5 12 19.5 12 19.5s7.4 0 8.9-.35A3 3 0 0 0 23 17V7z" fill="white" opacity="0.12"/><path d="M10 15V9l5 3-5 3z" fill="white"/></svg>
-              YouTube
-            </a>
-            <a class="tt" href="https://www.tiktok.com/@minegrad" target="_blank" rel="noopener"> <!-- TikTok -->
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9 3v7.5A4.5 4.5 0 1 0 13.5 15H15a6 6 0 1 1 0 12v-5.25A9 9 0 1 1 9 3z" fill="white" opacity="0.12"/></svg>
-              TikTok
-            </a>
-            <a class="vk" href="https://vk.com/club217846754" target="_blank" rel="noopener"> <!-- VK -->
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 2h20v20H2z" fill="white" opacity="0.06"/></svg>
-              ВКонтакте
-            </a>
-            <a class="tg" href="https://t.me/minegradofficial" target="_blank" rel="noopener"> <!-- Telegram -->
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 12l8-4 6 5-9 5-5-6z" fill="white" opacity="0.12"/></svg>
-              Telegram
-            </a>
+            <a class="yt" href="https://www.youtube.com/@MineGradOfficial" target="_blank" rel="noopener">YouTube</a>
+            <a class="tt" href="https://www.tiktok.com/@minegrad" target="_blank" rel="noopener">TikTok</a>
+            <a class="vk" href="https://vk.com/club217846754" target="_blank" rel="noopener">ВКонтакте</a>
+            <a class="tg" href="https://t.me/minegradofficial" target="_blank" rel="noopener">Telegram</a>
             <a class="donate" href="#donate">Поддержать проект</a>
           </div>
         </div>
