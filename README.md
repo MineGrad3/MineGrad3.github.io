@@ -140,7 +140,7 @@
             <div class="overlay"></div>
             <div class="meta">
               <div style="font-weight:800">MineGrad — вид города</div>
-              <div style="font-size:12px;color:rgba(255,255,255,0.7)">Скриншоты сервера — позже сюда можно загрузить свои фото.</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.7)">Скриншоты сервера.</div>
             </div>
           </div>
           <div class="controls">
@@ -275,7 +275,6 @@
     // simple gallery logic — images are placeholders, replace with server screenshots later
     const gallery = [
   'images/screen1.png',
-  'images/screen2.png',
   'images/screen3.png',
   'images/screen4.png',
   'images/screen5.png',
