@@ -102,7 +102,7 @@
     <header>
       <div class="brand">
         <div class="logo">
-         <img src="android-chrome-512x512.png" alt="MineGrad Logo" style="width:512px; height:512px; border-radius:14px;">
+         <img src="android-chrome-512x512.png" alt="NO">
         </div>
         <div>
           <h1>MineGrad</h1>
