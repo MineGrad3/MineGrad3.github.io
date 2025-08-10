@@ -274,10 +274,12 @@
   <script>
     // simple gallery logic — images are placeholders, replace with server screenshots later
     const gallery = [
-      'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80',
-      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80',
-      'https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1600&q=80',
-      'https://images.unsplash.com/photo-1502450802614-7df7a7b2b0a4?auto=format&fit=crop&w=1600&q=80',
+  'images/screen1.png',
+  'images/screen2.png',
+  'images/screen3.png',
+  'images/screen4.png',
+  'images/screen5.png',
+  'images/screen6.png',
     ];
     let idx = 0;
     const img = document.getElementById('gimg');
