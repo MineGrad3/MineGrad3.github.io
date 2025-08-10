@@ -101,7 +101,9 @@
   <div class="container">
     <header>
       <div class="brand">
-        <div class="logo">MG</div>
+        <div class="logo" style="background: linear-gradient(135deg, #7c3aed, #5b21b6); border-radius: 14px; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(91,33,182,0.18);">
+  <img src="logo.png" alt="MineGrad Logo" style="width:48px; height:48px; border-radius: 10px;">
+        </div>
         <div>
           <h1>MineGrad</h1>
           <div class="tag">Город возможностей. Играй. РП. Живи.</div>
