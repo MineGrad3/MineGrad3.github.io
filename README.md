@@ -42,6 +42,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    /* container responsive padding */
     .container{max-width:1100px;margin:40px auto;padding:28px}
 
     header{display:flex;align-items:center;justify-content:space-between;gap:16px}
@@ -73,14 +74,14 @@
     .lead{color:var(--muted-2);font-size:16px}
 
     .features{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
-    .pill{background:var(--card);padding:12px;border-radius:10px;font-weight:600;transition:transform .28s ease, box-shadow .28s ease}
+    .pill{background:var(--card);padding:12px;border-radius:10px;font-weight:600;transition:transform .28s ease, box-shadow .28s ease;min-width:0;white-space:normal;word-break:break-word}
     .pill:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
 
     /* card base + glassy hover */
     .card{border-radius:16px;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 10px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
 
-    /* gallery */
-    .gallery{height:360px;background:#000;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    /* gallery: responsive aspect ratio */
+    .gallery{background:#000;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:12px}
     .gallery img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .7s ease, transform .7s cubic-bezier(.2,.9,.2,1);opacity:1}
     .gallery img.fade-out{opacity:0;transform:scale(1.02) translateY(-6px)}
     .gallery .overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(2,6,23,0.6) 65%)}
@@ -127,6 +128,9 @@
       .law-panel.active{display:block}
     }
 
+    /* actions grid (section 'Что делать') */
+    .actions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+
     /* socials */
     .socials{display:flex;gap:10px;flex-wrap:wrap}
     .socials a{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:700;transition:transform .18s ease, box-shadow .18s ease}
@@ -140,16 +144,34 @@
 
     footer{margin-top:38px;text-align:center;color:rgba(255,255,255,0.44);font-size:13px;padding-bottom:30px}
 
-    /* responsive */
+    /* responsive tweaks for phones */
     @media (max-width:1000px){
       .hero{grid-template-columns:1fr}
-      .gallery{height:260px}
+      /* gallery becomes responsive using aspect-ratio and max-height on phones */
+      .gallery{aspect-ratio:16/9;height:auto;max-height:48vh}
+      .gallery img{height:100%}
       .grid3{grid-template-columns:1fr}
       .rules{grid-template-columns:1fr}
       .law-tabs{flex-wrap:wrap}
+      .actions-grid{grid-template-columns:1fr}
+      .card{border-radius:12px}
+      .card-blur{padding:14px}
+      .container{padding:18px;margin:18px auto}
     }
 
-    @media (max-width:420px){.big{font-size:28px}}
+    /* even smaller phones */
+    @media (max-width:420px){
+      .big{font-size:28px}
+      .logo{width:52px;height:52px}
+      .logo img{width:54px;height:54px}
+      header{flex-direction:column;align-items:flex-start;gap:8px}
+      nav{width:100%;display:flex;gap:8px}
+      .btn{flex:1;padding:10px;font-size:14px}
+      .tag{font-size:12px}
+      .pill{font-size:14px;padding:10px}
+      .socials a{flex:1 1 auto;justify-content:center}
+      .gallery{max-height:38vh}
+    }
 
     /* reduce motion */
     @media (prefers-reduced-motion: reduce){
@@ -190,9 +212,9 @@
             <div class="pill">Покупка жилья через NPC и карьерные профессии</div>
           </div>
 
-          <div style="margin-top:16px">
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
             <a class="btn" href="#apply">Подать заявку в вайтлист</a>
-            <a class="btn ghost" href="#discord" style="margin-left:10px">Вступить в Discord</a>
+            <a class="btn ghost" href="#discord" style="margin-left:0">Вступить в Discord</a>
           </div>
 
           <p style="margin-top:12px;color:rgba(255,255,255,0.6);font-size:13px">Важно: для захода на сервер обязательно подать заявку и дождаться добавления в вайтлист через Discord.</p>
@@ -241,7 +263,7 @@
       <section>
         <div class="card-blur">
           <h3>Что делать на сервере</h3>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px">
+          <div class="actions-grid">
             <div class="pill" style="background:var(--glass)">Купить квартиру и открыть бизнес</div>
             <div class="pill" style="background:var(--glass)">Устроиться на работу: водитель, доставщик, полицейский</div>
             <div class="pill" style="background:var(--glass)">Участвовать в ивентах и влиять на сюжет</div>
@@ -293,7 +315,7 @@
             </ul>
           </div>
 
-          <!-- replaced laws block with responsive accordion/tabs -->
+          <!-- responsive accordion/tabs -->
           <div style="grid-column:1 / -1">
             <h4>5️⃣ Законы города MineGrad</h4>
 
