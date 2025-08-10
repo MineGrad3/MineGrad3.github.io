@@ -1,5 +1,6 @@
 <html lang="ru">
 <head>
+  <link rel="icon" href="favicon.png" type="image/png" />
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>MineGrad — Город возможностей</title>
