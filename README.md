@@ -145,7 +145,7 @@
 
       <div class="profile" aria-label="Пользователь">
         <div style="text-align:right">
-          <div class="name">Владислав Левин</div>
+          <div class="name">Ксения Татарчук</div>
           <div style="font-size:12px;color:var(--muted)">online</div>
         </div>
         <button id="open-profile" class="avatar" aria-label="Открыть профиль" title="Открыть профиль">
