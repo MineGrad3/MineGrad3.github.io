@@ -133,7 +133,7 @@
   <div class="container" role="main">
     <header class="site-header" aria-label="Шапка сайта">
       <div class="brand">
-        <div class="logo" aria-hidden="true">SW</div>
+        <img src="android-chrome-192x192.png" alt="Логотип SaveWallet" class="logo-image">
         <div>
           <h1 style="text-transform:none">SaveWallet.md</h1>
           <div style="font-size:13px;color:var(--muted)">SaveWallet.md - ваш надежный помощник для онлайн переводов.</div>
