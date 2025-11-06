@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PurplePay - прототип агрегатора покупок + кошелёк</title>
-  <!-- README: Сокращённая информация для интеграции - все инструкции и предупреждения сохранены в исходном файле. (Подробности скрыты в UI). -->
-
+  <title>SaveWallet.md - прототип сайта</title>
   <style>
     :root{
       --purple-500: #6B46C1;
