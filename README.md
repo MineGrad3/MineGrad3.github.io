@@ -1,3 +1,4 @@
+<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
@@ -135,10 +136,10 @@
   <div class="container" role="main">
     <header class="site-header" aria-label="Шапка сайта">
       <div class="brand">
-        <div class="logo" aria-hidden="true">PP</div>
+        <div class="logo" aria-hidden="true">SW</div>
         <div>
-          <h1 style="text-transform:none">purplePay</h1>
-          <div style="font-size:13px;color:var(--muted)">PurplePay - ваш надежный помощник для онлайн переводов.</div>
+          <h1 style="text-transform:none">SaveWallet.md</h1>
+          <div style="font-size:13px;color:var(--muted)">SaveWallet.md - ваш надежный помощник для онлайн переводов.</div>
         </div>
       </div>
 
@@ -335,7 +336,7 @@
 
         <footer>
           <div>
-            <strong>PurplePay</strong> - мы обеспечиваем безопасность покупок и простоту управления балансом.
+            <strong>SaveWallet.md</strong> - мы обеспечиваем безопасность покупок и простоту управления балансом.
           </div>
           <div>
             <a href="#">Terms</a> • <a href="#">Privacy</a>
