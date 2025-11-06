@@ -1,552 +1,496 @@
+<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MineGrad — Город возможностей</title>
-  <meta name="description" content="MineGrad — роллплей сервер Minecraft. Подай заявку в вайтлист и начни свою историю. Дальше = больше." />
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
-
-  <!-- font (kept) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <title>PurplePay - прототип агрегатора покупок + кошелёк</title>
+  <!-- README: Сокращённая информация для интеграции - все инструкции и предупреждения сохранены в исходном файле. (Подробности скрыты в UI). -->
 
   <style>
     :root{
-      --bg1:#07021a;
-      --bg2:#1a0830;
-      --accent1:#7c3aed; /* purple */
-      --accent2:#5b21b6; /* deep purple */
-      --muted:rgba(255,255,255,0.88);
-      --muted-2:rgba(255,255,255,0.74);
-      --card: rgba(255,255,255,0.04);
-      --glass: rgba(255,255,255,0.04);
-      --glass-2: rgba(255,255,255,0.03);
-      --glass-strong: rgba(255,255,255,0.06);
+      --purple-500: #6B46C1;
+      --purple-400: #8B5CF6;
+      --purple-700: #4C1D95;
+      --bg: #EDE9FE;
+      --muted: #6B7280;
+      --glass: rgba(255,255,255,0.06);
+      --radius: 12px;
+      --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      --max-width: 1200px;
     }
 
+    /* Mobile-first reset */
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      color:var(--muted);
-      background:
-        radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.12), transparent),
-        linear-gradient(180deg,var(--bg1),var(--bg2));
+      font-family:var(--font-family);
+      background:linear-gradient(180deg,var(--bg),#F7F3FF 80%);
+      color:#0f172a;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      -webkit-tap-highlight-color: transparent;
+      line-height:1.45;
+      padding:16px;
+      display:flex;justify-content:center;
     }
+    .container{width:100%;max-width:var(--max-width)}
 
-    /* container responsive padding */
-    .container{max-width:1100px;margin:40px auto;padding:28px}
-
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    /* Header */
+    header.site-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
     .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,var(--purple-500),var(--purple-400));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px;box-shadow:0 6px 18px rgba(107,70,193,0.18)}
+    .brand h1{font-size:20px;margin:0}
+    .profile{display:flex;align-items:center;gap:10px}
+    .profile .name{font-weight:600}
+    .avatar{width:48px;height:48px;border-radius:999px;background:linear-gradient(0deg,#fff8,transparent);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.2)}
 
-    /* logo with subtle animation */
-    .logo{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:20px;box-shadow:0 10px 30px rgba(91,33,182,0.18);overflow:hidden;position:relative}
-    .logo img{width:70px;height:70px;object-fit:cover;border-radius:10px;transform-origin:center;transition:transform .5s cubic-bezier(.2,.9,.2,1);} 
-    .logo:hover img{transform:scale(1.03) rotate(-3deg)}
+    /* Nav */
+    nav.main-nav{display:flex;gap:8px;overflow:auto;margin-bottom:16px}
+    nav.main-nav a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--purple-700);font-weight:600;background:transparent}
+    nav.main-nav a.active{background:linear-gradient(90deg,var(--purple-400),var(--purple-500));color:white}
 
-    h1{margin:0;font-size:22px}
-    .tag{font-size:13px;color:var(--muted-2)}
+    /* Layout */
+    .layout{display:grid;grid-template-columns:1fr;gap:16px}
 
-    nav{display:flex;gap:10px}
-    .btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));padding:10px 16px;border-radius:10px;color:white;font-weight:600;text-decoration:none;display:inline-block;position:relative;overflow:hidden}
-    .btn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,0.06),transparent);mix-blend-mode:overlay;opacity:.6}
-    .btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(91,33,182,0.18);}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    /* Sidebar */
+    .sidebar{background:linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,255,255,0.4));padding:12px;border-radius:12px;box-shadow:0 6px 20px rgba(76,29,149,0.08);position:relative}
+    .balance{display:flex;flex-direction:column;gap:8px}
+    .balance .amount{font-size:20px;font-weight:700;color:var(--purple-700)}
+    .sidebar .btn{display:block;width:100%;padding:10px;border-radius:10px;border:0;background:var(--purple-500);color:white;font-weight:700}
 
-    main{margin-top:26px}
-    .hero{display:grid;grid-template-columns:1fr 540px;gap:28px;align-items:center}
-    .eyebrow{display:inline-block;background:linear-gradient(90deg,#2d1366,#6b3bd1);padding:6px 10px;border-radius:999px;font-size:13px;color:white;font-weight:700}
+    /* Search + Filters */
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .search{flex:1;display:flex;gap:8px}
+    .search input{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(15,23,42,0.06)}
+    .filters{display:flex;gap:8px;overflow:auto}
+    .chip{padding:8px 10px;border-radius:999px;border:1px solid rgba(15,23,42,0.04);background:white;font-weight:600}
 
-    /* animated gradient text for headline */
-    .big{font-size:44px;line-height:1.02;margin:12px 0;font-weight:800;background:linear-gradient(90deg,#fff,#bdb0ff,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;position:relative}
-    @keyframes hueShift{from{background-position:0% 50%}to{background-position:100% 50%}}
-    .big{background-size:200% 200%;animation:hueShift 6s linear infinite}
+    /* Grid */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
 
-    .lead{color:var(--muted-2);font-size:16px}
+    /* Card layout: ensure readable line length */
+    .card{
+      background:white;padding:14px;border-radius:12px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 2px 8px rgba(16,24,40,0.03);transition:transform .18s ease,box-shadow .18s ease;position:relative;overflow:hidden;flex-direction:row;
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(16,24,40,0.08)}
 
-    .features{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
-    .pill{background:var(--card);padding:12px;border-radius:10px;font-weight:600;transition:transform .28s ease, box-shadow .28s ease;min-width:0;white-space:normal;word-break:break-word}
-    .pill:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
+    /* fixed image area */
+    .card .img-wrap{width:140px;height:100px;border-radius:8px;flex:0 0 140px;overflow:hidden;background:linear-gradient(90deg,var(--purple-400),var(--purple-500));display:flex;align-items:center;justify-content:center;color:white}
+    .card img{width:100%;height:100%;object-fit:cover;display:block}
 
-    /* card base + glassy hover */
-    .card{border-radius:16px;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 10px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+    /* content area: limit width in characters (ch) so lines ~10-20 chars */
+    .card .content{flex:1;min-width:0;max-width:28ch;}
+    .card h3{margin:0;font-size:16px}
+    .card p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.4;word-break:break-word;overflow-wrap:break-word}
 
-    /* gallery: responsive aspect ratio */
-    .gallery{background:#000;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:12px}
-    .gallery img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .7s ease, transform .7s cubic-bezier(.2,.9,.2,1);opacity:1}
-    .gallery img.fade-out{opacity:0;transform:scale(1.02) translateY(-6px)}
-    .gallery .overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(2,6,23,0.6) 65%)}
-    .gallery .meta{position:absolute;left:18px;bottom:18px;background:rgba(0,0,0,0.35);backdrop-filter:blur(6px);padding:10px;border-radius:10px}
+    /* price area stays fixed so it doesn't push content */
+    .price{margin-left:auto;text-align:right;display:flex;flex-direction:column;gap:6px;flex:0 0 110px;min-width:110px}
+    .price .L{font-weight:800;font-size:18px}
 
-    .controls{display:flex;align-items:center;justify-content:space-between;padding:10px}
-    .small-btn{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:8px;color:var(--muted);cursor:pointer}
+    .badge{position:absolute;left:12px;top:12px;background:linear-gradient(90deg,var(--purple-400),var(--purple-500));color:white;padding:6px 8px;border-radius:999px;font-weight:700;font-size:12px}
+    .card .meta{display:flex;gap:6px;align-items:center;margin-top:8px}
+    .meta .icon{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center}
+    .cta{padding:8px 12px;border-radius:10px;border:0;background:var(--purple-500);color:white;font-weight:700}
 
-    /* progress bar under gallery */
-    .progress-wrap{height:4px;background:transparent;border-radius:999px;overflow:hidden;margin-top:6px}
-    .progress{height:100%;width:0%;background:linear-gradient(90deg,var(--accent1),var(--accent2));transition:width .25s linear}
+    /* Footer */
+    footer{margin-top:18px;padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(107,70,193,0.06),rgba(139,92,246,0.03));color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+    footer a{color:var(--purple-700);text-decoration:none;font-weight:700}
 
-    /* dots */
-    .dots{display:flex;gap:8px;align-items:center}
-    .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.06);cursor:pointer}
-    .dot.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));box-shadow:0 6px 18px rgba(91,33,182,0.16)}
+    /* Modals & Toasts */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center;padding:16px;z-index:80}
+    .modal{background:white;border-radius:12px;padding:18px;max-width:520px;width:100%;box-shadow:0 30px 80px rgba(2,6,23,0.6)}
+    .modal header{display:flex;justify-content:space-between;align-items:center}
+    .toast{position:fixed;right:20px;bottom:20px;background:var(--purple-700);color:white;padding:10px 14px;border-radius:10px;box-shadow:0 10px 30px rgba(76,29,149,0.3);display:none;z-index:90}
 
-    /* sections */
-    section{margin-top:22px}
-    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .card-blur{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);transition:transform .28s ease,box-shadow .28s ease}
-    .card-blur:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.45)}
+    /* History table */
+    table{width:100%;border-collapse:collapse}
+    td,th{padding:8px;text-align:left;border-bottom:1px solid #f3f4f6}
 
-    /* rules */
-    .rules{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-    .rules h3{margin-top:0}
-    ul.rules-list{padding-left:18px;margin:8px 0}
-
-    /* law tabs */
-    .law-tabs{display:flex;gap:10px;margin-bottom:12px}
-    /* non-active buttons made lighter for readability */
-    .law-btn{padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);cursor:pointer;font-weight:700;display:inline-flex;align-items:center;gap:10px;color:var(--muted-2)}
-    .law-btn:hover{background:rgba(255,255,255,0.12);color:var(--muted)}
-    .law-btn.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;box-shadow:0 12px 30px rgba(91,33,182,0.12);border-color:transparent}
-    .law-panel{display:none;animation:fadeIn .28s ease both}
-    .law-panel.active{display:block}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-    /* accordion (mobile) */
-    @media (max-width:1000px){
-      .law-tabs{display:block}
-      .law-btn{width:100%;justify-content:space-between}
-      .law-btn .chev{display:inline-block;transition:transform .18s ease}
-      .law-btn[aria-expanded="true"] .chev{transform:rotate(180deg)}
-      .law-panel{display:none;padding:12px 0;border-top:1px solid rgba(255,255,255,0.03)}
-      .law-panel.active{display:block}
+    /* Responsive behavior */
+    @media(max-width:699px){
+      .grid{grid-template-columns:1fr}
+      .card{flex-direction:column}
+      .card .img-wrap{width:100%;height:160px;flex:0 0 auto}
+      .card .content{max-width:100%}
+      .price{flex:0 0 auto;min-width:0;text-align:left}
     }
 
-    /* actions grid (section 'Что делать') */
-    .actions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
-
-    /* socials */
-    .socials{display:flex;gap:10px;flex-wrap:wrap}
-    .socials a{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:700;transition:transform .18s ease, box-shadow .18s ease}
-    .socials a:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(2,6,23,0.5)}
-    .yt{background:#ff3b3b;color:white}
-    .tt{background:#111;color:white}
-    .vk{background:#4a76a8;color:white}
-    .tg{background:linear-gradient(90deg,#6b3bd1,#2a64d6);color:white}
-    .donate{background:linear-gradient(90deg,#10b981,#059669);color:white}
-
-    footer{margin-top:38px;text-align:center;color:rgba(255,255,255,0.44);font-size:13px;padding-bottom:30px}
-
-    /* responsive tweaks for phones */
-    @media (max-width:1000px){
-      .hero{grid-template-columns:1fr}
-      /* gallery becomes responsive using aspect-ratio and max-height on phones */
-      .gallery{aspect-ratio:16/9;height:auto;max-height:48vh}
-      .gallery img{height:100%}
-      .grid3{grid-template-columns:1fr}
-      .rules{grid-template-columns:1fr}
-      .law-tabs{flex-wrap:wrap}
-      .actions-grid{grid-template-columns:1fr}
-      .card{border-radius:12px}
-      .card-blur{padding:14px}
-      .container{padding:18px;margin:18px auto}
+    @media(min-width:700px){
+      .layout{grid-template-columns:320px 1fr}
+      .container{padding:20px}
     }
 
-    /* even smaller phones */
-    @media (max-width:420px){
-      .big{font-size:28px}
-      .logo{width:52px;height:52px}
-      .logo img{width:54px;height:54px}
-      header{flex-direction:column;align-items:flex-start;gap:8px}
-      nav{width:100%;display:flex;gap:8px}
-      .btn{flex:1;padding:10px;font-size:14px}
-      .tag{font-size:12px}
-      .pill{font-size:14px;padding:10px}
-      .socials a{flex:1 1 auto;justify-content:center}
-      .gallery{max-height:38vh}
-    }
+    /* Accessibility focus */
+    a:focus,button:focus,input:focus{outline:3px solid rgba(139,92,246,0.25);outline-offset:3px}
 
-    /* reduce motion */
-    @media (prefers-reduced-motion: reduce){
-      .big, .logo img, .pill, .card-blur, .btn, .gallery img{animation:none;transition:none}
-    }
+    /* Visual adjustments */
+    body{font-size:16px;padding:20px}
+    .logo{width:64px;height:64px;font-size:20px}
+    .avatar{width:48px;height:48px}
+    .card h3{font-size:18px}
+    .price .L{font-size:20px}
+
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
+  <div class="container" role="main">
+    <header class="site-header" aria-label="Шапка сайта">
       <div class="brand">
-        <div class="logo" title="MineGrad logo">
-         <img src="android-chrome-512x512.png" alt="MineGrad logo" width="70" height="70">
-        </div>
+        <div class="logo" aria-hidden="true">PP</div>
         <div>
-          <h1>MineGrad</h1>
-          <div class="tag">Город возможностей. Играй. РП. Живи.</div>
+          <h1 style="text-transform:none">purplePay</h1>
+          <div style="font-size:13px;color:var(--muted)">PurplePay - ваш надежный помощник для онлайн переводов.</div>
         </div>
       </div>
 
-      <nav aria-label="main">
-        <a class="btn" href="https://discord.gg/YxRKH842Pz" target="_blank" rel="noopener">Подать заявку</a>
-        <a class="btn ghost" href="https://discord.gg/YxRKH842Pz" target="_blank" rel="noopener">Discord</a>
-      </nav>
+      <div class="profile" aria-label="Пользователь">
+        <div style="text-align:right">
+          <div class="name">Владислав Левин</div>
+          <div style="font-size:12px;color:var(--muted)">online</div>
+        </div>
+        <button id="open-profile" class="avatar" aria-label="Открыть профиль" title="Открыть профиль">
+          <!-- Avatar SVG -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.2" stroke="white" stroke-width="1.2"/><path d="M3 20c1.8-4 6-6 9-6s7.2 2 9 6" stroke="white" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
     </header>
 
-    <main>
-      <section class="hero">
-        <div>
-          <div class="eyebrow">MineGrad</div>
-          <h2 class="big">MineGrad — город возможностей.</h2>
-          <p class="lead">Представь мир, где каждое утро начинается на оживлённой остановке — с гидом рядом и навигатором в телефоне. Здесь у тебя есть работа, дом, друзья и враги — и всё это влияет на судьбу города. Заходи сейчас — и помни: <strong>дальше = больше</strong>.</p>
+    <nav class="main-nav" role="navigation" aria-label="Главная навигация">
+      <a href="#" class="active">Home</a>
+      <a href="#">Магазин</a>
+      <a href="#">Профиль</a>
+      <a href="#">Баланс</a>
+    </nav>
 
-          <div class="features">
-            <div class="pill">Реалистичный городской спавн и вводный гид</div>
-            <div class="pill">Фракции: полиция, военные, медики, СМИ</div>
-            <div class="pill">Уникальная рыбалка и экономика без Pay-to-Win</div>
-            <div class="pill">Покупка жилья через NPC и карьерные профессии</div>
-          </div>
-
-          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
-            <a class="btn" href="https://discord.gg/YxRKH842Pz" target="_blank" rel="noopener">Подать заявку в вайтлист</a>
-            <a class="btn ghost" href="https://discord.gg/YxRKH842Pz" target="_blank" rel="noopener">Вступить в Discord</a>
-          </div>
-
-          <p style="margin-top:12px;color:rgba(255,255,255,0.6);font-size:13px">Важно: для захода на сервер обязательно подать заявку и дождаться добавления в вайтлист через Discord.</p>
+    <div class="layout">
+      <aside class="sidebar" aria-labelledby="wallet-label">
+        <div id="wallet-label" style="font-size:13px;color:var(--muted)">Кошелёк</div>
+        <div class="balance" aria-live="polite" style="margin-top:8px">
+          <div style="font-size:12px;color:var(--muted)">Баланс</div>
+          <div class="amount" id="balance-amount">350 L</div>
         </div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button id="btn-topup" class="btn" aria-haspopup="dialog">Пополнить</button>
+          <button id="btn-send" class="btn" style="background:transparent;border:1px solid var(--purple-500);color:var(--purple-700)">Отправить</button>
+        </div>
+        <button id="btn-history" class="btn" style="margin-top:10px;background:transparent;border:1px dashed rgba(107,70,193,0.12);color:var(--purple-700)">История</button>
 
-        <div class="card">
-          <div class="gallery" id="gallery" aria-live="polite">
-            <!-- single-image approach with crossfade on change (keeps repo paths intact) -->
-            <img id="gimg" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80" alt="MineGrad screenshot" loading="lazy">
-            <div class="overlay"></div>
-            <div class="meta">
-              <div style="font-weight:800">MineGrad — вид города</div>
-              <div style="font-size:12px;color:rgba(255,255,255,0.7)">Скриншоты сервера.</div>
-            </div>
-          </div>
-
-          <div class="controls">
-            <div style="display:flex;gap:8px;align-items:center">
-              <button class="small-btn" id="prevBtn" aria-label="Previous">⟨</button>
-              <div class="dots" id="dots"></div>
-              <button class="small-btn" id="nextBtn" aria-label="Next">⟩</button>
-            </div>
-            <div style="text-align:right">
-              <div style="font-size:13px;color:rgba(255,255,255,0.7)" id="gmeta">Скрин 1 из 4</div>
-              <div class="progress-wrap"><div class="progress" id="gprogress"></div></div>
-            </div>
-          </div>
+        <div style="margin-top:12px;font-size:13px;color:var(--muted)">
+          <strong>Ссылки</strong>
+          <div style="margin-top:6px"><a href="#">Terms</a> • <a href="#">Privacy</a></div>
         </div>
-      </section>
-
-      <section class="grid3">
-        <div class="card-blur">
-          <h4>Игровая экономика</h4>
-          <p style="margin-top:8px;color:rgba(255,255,255,0.75);font-size:14px">Стабильная модель: донат — косметика, а не преимущества. Профессии и торговля влияют на развитие персонажа.</p>
-        </div>
-        <div class="card-blur">
-          <h4>Фракции и сюжет</h4>
-          <p style="margin-top:8px;color:rgba(255,255,255,0.75);font-size:14px">Фракции развиваются силами игроков — ваша активность формирует политическую и криминальную карта города.</p>
-        </div>
-        <div class="card-blur">
-          <h4>Механики и плагины</h4>
-          <p style="margin-top:8px;color:rgba(255,255,255,0.75);font-size:14px">BetonQuests, NPC-покупки, паспортная система — всё уже работает, а в будущем будет ещё глубже.</p>
-        </div>
-      </section>
+      </aside>
 
       <section>
-        <div class="card-blur">
-          <h3>Что делать на сервере</h3>
-          <div class="actions-grid">
-            <div class="pill" style="background:var(--glass)">Купить квартиру и открыть бизнес</div>
-            <div class="pill" style="background:var(--glass)">Устроиться на работу: водитель, доставщик, полицейский</div>
-            <div class="pill" style="background:var(--glass)">Участвовать в ивентах и влиять на сюжет</div>
+        <div class="controls" role="region" aria-label="Поиск и фильтры">
+          <div class="search">
+            <input id="search" type="search" placeholder="Поиск товаров, сервисов..." aria-label="Поиск" />
+            </div>
+          <div class="filters" role="tablist" aria-label="Категории">
+            <button class="chip" data-cat="all">Все</button>
+            <button class="chip" data-cat="games">Игры</button>
+            <button class="chip" data-cat="subscriptions">Подписки</button>
+            <button class="chip" data-cat="food">Доставка</button>
+            <button class="chip" data-cat="electronics">Электроника</button>
+            <button class="chip" data-cat="services">Услуги</button>
+            <button class="chip" data-cat="giftcards">Подарочные карты</button>
           </div>
         </div>
-      </section>
 
-      <section class="card-blur" id="rules" style="margin-top:18px">
-        <h3>📜 Официальные правила MineGrad</h3>
-        <div class="rules" style="margin-top:12px">
-          <!-- rules content unchanged -->
-          <div>
-            <h4>1️⃣ Общие правила</h4>
-            <ul class="rules-list">
-              <li>Уважай других игроков — без оскорблений, угроз и провокаций.</li>
-              <li>Запрещены любые читы, баги, дюпы и сторонние программы.</li>
-              <li>Без мата, спама, чрезмерного капса и рекламы других серверов.</li>
-              <li>РП-игра обязательна — соблюдай атмосферу города.</li>
-              <li>Незнание правил не освобождает от ответственности. Обход наказаний запрещён.</li>
-            </ul>
-          </div>
+        <div class="grid" id="products" aria-live="polite">
+          <!-- Примеры карточек -->
 
-          <div>
-            <h4>2️⃣ Игровые имена и скины</h4>
-            <ul class="rules-list">
-              <li>Ник не должен содержать оскорблений, рекламы или мата.</li>
-              <li>RP-имена — реалистичные: <strong>Имя Фамилия</strong>.</li>
-              <li>Скины должны соответствовать сеттингу, запрещена экстремистская символика.</li>
-              <li>При работе во фракции — форма обязательна.</li>
-            </ul>
-          </div>
-
-          <div>
-            <h4>3️⃣ Взаимодействие с миром</h4>
-            <ul class="rules-list">
-              <li>Гриферство запрещено — не ломай чужое и не порти город.</li>
-              <li>Чат — для общения по игре, без оффтопа и спама.</li>
-              <li>Запрещено злоупотреблять игровыми механиками (баги экономики, PvP и т.д.).</li>
-            </ul>
-          </div>
-
-          <div>
-            <h4>4️⃣ Фракции и конфликты</h4>
-            <ul class="rules-list">
-              <li>Конфликты только в рамках РП — без атак без причины.</li>
-              <li>Каждая фракция выполняет свою роль, смена — только через РП.</li>
-              <li>Нейтральные игроки не вмешиваются в разборки.</li>
-              <li>Полиция и военные проводят аресты по закону.</li>
-            </ul>
-          </div>
-
-          <!-- responsive accordion/tabs -->
-          <div style="grid-column:1 / -1">
-            <h4>5️⃣ Законы города MineGrad</h4>
-
-            <div class="law-tabs" role="tablist" aria-label="Законы города">
-              <button class="law-btn active" data-target="criminal" role="tab" aria-selected="true" aria-expanded="false">🔴 Уголовные преступления <span class="chev">▾</span></button>
-              <button class="law-btn" data-target="administrative" role="tab" aria-selected="false" aria-expanded="false">🟡 Административные нарушения <span class="chev">▾</span></button>
+          <!-- CARD -->
+          <article class="card" data-cat="games" data-title="Cyber Quest" tabindex="0">
+            <div class="img-wrap" aria-hidden="true">
+              <img class="product-image" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=60" alt="Игра: Cyber Quest"/>
+            </div>
+            <div class="content">
+              <h3>Cyber Quest</h3>
+              <p>Приключенческая RPG - ключ Steam. Быстрая доставка.</p>
+              <div class="meta">
+                <span class="icon" aria-hidden="true"><!-- ICON: gamepad -->
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 14v-4" stroke="#6B46C1" stroke-width="1.6" stroke-linecap="round"/><path d="M18 14v-4" stroke="#6B46C1" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
+              </div>
             </div>
 
-            <div id="criminal" class="law-panel active" role="tabpanel">
-              <p style="font-weight:700;margin:6px 0">🔴 Уголовные преступления:</p>
-              <ul class="rules-list">
-                <li>Убийство без причины — 30 минут тюрьмы.</li>
-                <li>Ограбление (при поимке) — 20 минут тюрьмы + штраф.</li>
-                <li>Нападение на полицейского/военного — 40 минут тюрьмы.</li>
-                <li>Попытка госпереворота — пожизненное заключение.</li>
-              </ul>
+            <div class="price">
+              <div class="L" data-price="50">50 L</div>
+              <button class="cta buy-btn" data-id="p1">Купить</button>
+            </div>
+            <div class="badge">Гарантия безопасности</div>
+          </article>
+
+          <!-- CARD -->
+          <article class="card" data-cat="subscriptions" data-title="StreamPlus" tabindex="0">
+            <div class="img-wrap" aria-hidden="true">
+              <img class="product-image" src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=60" alt="Подписка: StreamPlus"/>
+            </div>
+            <div class="content">
+              <h3>StreamPlus - 1 мес</h3>
+              <p>Новый стриминг с HD. Авто-активация.</p>
+              <div class="meta">
+                <span class="icon" aria-hidden="true"><!-- ICON: play -->
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 3v18l15-9L5 3z" stroke="#6B46C1" stroke-width="0.6" fill="#8B5CF6"/></svg>
+                </span>
+              </div>
             </div>
 
-            <div id="administrative" class="law-panel" role="tabpanel" aria-hidden="true">
-              <p style="font-weight:700;margin:6px 0">🟡 Административные нарушения:</p>
-              <ul class="rules-list">
-                <li>Оскорбления/провокации — штраф или 10 минут КПЗ.</li>
-                <li>Незаконное проникновение — 15 минут тюрьмы.</li>
-                <li>Вандализм (грифинг) — бан от 3 дней до перманента.</li>
-              </ul>
+            <div class="price">
+              <div class="L" data-price="30">30 L</div>
+              <button class="cta buy-btn" data-id="p2">Купить</button>
+            </div>
+            <div class="badge">Гарантия безопасности</div>
+          </article>
+
+          <!-- CARD -->
+          <article class="card" data-cat="food" data-title="SushiBox" tabindex="0">
+            <div class="img-wrap" aria-hidden="true">
+              <img class="product-image" src="https://images.unsplash.com/photo-1547592166-0d6b6e004b2a?auto=format&fit=crop&w=800&q=60" alt="Доставка: SushiBox"/>
+            </div>
+            <div class="content">
+              <h3>SushiBox - набор</h3>
+              <p>Премиум сеты. Доставка за 40-60 мин.</p>
+              <div class="meta">
+                <span class="icon" aria-hidden="true"><!-- ICON: food -->
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3v18" stroke="#6B46C1" stroke-width="1.4"/><path d="M4 7h16" stroke="#6B46C1" stroke-width="1.4"/></svg>
+                </span>
+              </div>
             </div>
 
+            <div class="price">
+              <div class="L" data-price="120">120 L</div>
+              <button class="cta buy-btn" data-id="p3">Купить</button>
+            </div>
+            <div class="badge">Гарантия безопасности</div>
+          </article>
+
+          <!-- CARD -->
+          <article class="card" data-cat="electronics" data-title="EarPods X" tabindex="0">
+            <div class="img-wrap" aria-hidden="true">
+              <img class="product-image" src="https://images.unsplash.com/photo-1518449078750-6c1f9ee8b6a0?auto=format&fit=crop&w=800&q=60" alt="Наушники EarPods X"/>
+            </div>
+            <div class="content">
+              <h3>EarPods X</h3>
+              <p>Беспроводные наушники с шумоподавлением.</p>
+              <div class="meta">
+                <span class="icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#6B46C1"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="price">
+              <div class="L" data-price="900">900 L</div>
+              <button class="cta buy-btn" data-id="p4">Купить</button>
+            </div>
+            <div class="badge">Гарантия безопасности</div>
+          </article>
+
+          <!-- CARD -->
+          <article class="card" data-cat="services" data-title="SafeVPN - 1 год" tabindex="0">
+            <div class="img-wrap" aria-hidden="true">
+              <img class="product-image" src="https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=800&q=60" alt="VPN: SafeVPN"/>
+            </div>
+            <div class="content">
+              <h3>SafeVPN - 1 год</h3>
+              <p>VPN для безопасности и приватности.</p>
+              <div class="meta">
+                <span class="icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2v4" stroke="#6B46C1" stroke-width="1.4"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="price">
+              <div class="L" data-price="180">180 L</div>
+              <button class="cta buy-btn" data-id="p5">Купить</button>
+            </div>
+            <div class="badge">Гарантия безопасности</div>
+          </article>
+
+          <!-- CARD -->
+          <article class="card" data-cat="giftcards" data-title="Gift Card 200L" tabindex="0">
+            <div class="img-wrap" aria-hidden="true">
+              <img class="product-image" src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=60" alt="Подарочная карта 200 лей"/>
+            </div>
+            <div class="content">
+              <h3>Gift Card - 200 L</h3>
+              <p>Подарочная карта для популярных сервисов.</p>
+              <div class="meta">
+                <span class="icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="12" rx="2" stroke="#6B46C1"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="price">
+              <div class="L" data-price="200">200 L</div>
+              <button class="cta buy-btn" data-id="p6">Купить</button>
+            </div>
+            <div class="badge">Гарантия безопасности</div>
+          </article>
+
+        </div>
+
+        <footer>
+          <div>
+            <strong>PurplePay</strong> - мы обеспечиваем безопасность покупок и простоту управления балансом.
           </div>
-        </div>
-      </section>
-
-      <section style="margin-top:18px;display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap">
-        <div style="flex:1;min-width:260px" class="card-blur">
-          <h4>Соцсети MineGrad</h4>
-          <p style="margin-top:6px;color:rgba(255,255,255,0.75);font-size:14px">Подписывайся, подавай заявку и следи за ивентами.</p>
-          <div style="margin-top:12px" class="socials">
-            <a class="yt" href="https://www.youtube.com/@MineGradOfficial" target="_blank" rel="noopener">YouTube</a>
-            <a class="tt" href="https://www.tiktok.com/@minegrad" target="_blank" rel="noopener">TikTok</a>
-            <a class="vk" href="https://vk.com/club217846754" target="_blank" rel="noopener">ВКонтакте</a>
-            <a class="tg" href="https://t.me/minegradofficial" target="_blank" rel="noopener">Telegram</a>
-            <a class="donate" href="#donate">Поддержать проект</a>
+          <div>
+            <a href="#">Terms</a> • <a href="#">Privacy</a>
           </div>
-        </div>
-
-        <div style="flex:1;min-width:260px" class="card-blur">
-          <h4>Как зайти на сервер</h4>
-          <ol style="margin-top:8px;color:rgba(255,255,255,0.78);font-size:14px">
-            <li>Вступи в наш Discord.</li>
-            <li>Подай заявку на вайтлист в специальном канале.</li>
-            <li>Дождись подтверждения — тебя добавят и пришлют IP сервера.</li>
-          </ol>
-          <p style="margin-top:8px;color:rgba(255,255,255,0.62);font-size:13px">Важно: вход на сервер доступен только после подтверждения в вайтлисте.</p>
-        </div>
+        </footer>
       </section>
-
-      <footer>
-        © MineGrad — проект развивается. Помни: <strong>дальше = больше</strong>.
-      </footer>
-
-    </main>
+    </div>
   </div>
 
+  <!-- Modals -->
+  <div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document" aria-labelledby="modal-title">
+      <header>
+        <h2 id="modal-title">Модальное окно</h2>
+        <button id="modal-close" aria-label="Закрыть">✕</button>
+      </header>
+      <div id="modal-body" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <script>
-    // gallery logic with crossfade, progress and controls (unchanged)
-    const gallery = [
-      'images/screen1.png',
-      'images/screen3.png',
-      'images/screen4.png',
-      'images/screen5.png',
-      'images/screen6.png',
+    // === Demo data & helpers ===
+    const COMMISSION = 0.10; // 10% commission
+    const products = [
+      {id:'p1',title:'Cyber Quest',price:50,cat:'games'},
+      {id:'p2',title:'StreamPlus - 1 мес',price:30,cat:'subscriptions'},
+      {id:'p3',title:'SushiBox - набор',price:120,cat:'food'},
+      {id:'p4',title:'EarPods X',price:900,cat:'electronics'},
+      {id:'p5',title:'SafeVPN - 1 год',price:180,cat:'services'},
+      {id:'p6',title:'Gift Card - 200 L',price:200,cat:'giftcards'}
     ];
 
-    let idx = 0;
-    const img = document.getElementById('gimg');
-    const meta = document.getElementById('gmeta');
-    const progress = document.getElementById('gprogress');
-    const dotsWrap = document.getElementById('dots');
-    const nextBtn = document.getElementById('nextBtn');
-    const prevBtn = document.getElementById('prevBtn');
+    // Local balance (demo) - stored in memory; optionally persist to localStorage
+    const STATE = {
+      balance: (localStorage.getItem('pp_balance') ? Number(localStorage.getItem('pp_balance')) : 350),
+      history: (localStorage.getItem('pp_history') ? JSON.parse(localStorage.getItem('pp_history')) : [])
+    };
 
-    // build dots
-    for(let i=0;i<gallery.length;i++){
-      const d = document.createElement('div');
-      d.className='dot'+(i===0?' active':'');
-      d.dataset.i = i;
-      d.addEventListener('click', ()=>{ goTo(parseInt(d.dataset.i)); resetTimer(); });
-      dotsWrap.appendChild(d);
+    function formatL(sum){return `${sum} L`}
+    function showToast(msg, timeout=2500){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>{t.style.display='none'},timeout)}
+
+    function updateBalanceUI(){document.getElementById('balance-amount').textContent = formatL(STATE.balance);localStorage.setItem('pp_balance',STATE.balance)}
+
+    updateBalanceUI();
+
+    // === Modal helpers ===
+    const backdrop=document.getElementById('modal-backdrop');
+    function openModal(title, html){document.getElementById('modal-title').textContent=title;document.getElementById('modal-body').innerHTML=html;backdrop.style.display='flex';backdrop.setAttribute('aria-hidden','false')}
+    function closeModal(){backdrop.style.display='none';backdrop.setAttribute('aria-hidden','true')}
+    document.getElementById('modal-close').addEventListener('click',closeModal);
+    backdrop.addEventListener('click',(e)=>{if(e.target===backdrop)closeModal()});
+
+    // === Purchase flow ===
+    document.querySelectorAll('.buy-btn').forEach(btn=>btn.addEventListener('click',handleBuy));
+
+    function calcTotal(price){return Math.round((price*(1+COMMISSION))*100)/100}
+
+    function handleBuy(e){
+      const id=e.currentTarget.dataset.id;const p=products.find(x=>x.id===id);
+      if(!p)return;
+      const total=calcTotal(p.price);
+      openModal('Подтверждение покупки',`\n        <p>Вы собираетесь купить <strong>${p.title}</strong> за <strong>${p.price} L</strong>.</p>\n        <p>Комиссия ${COMMISSION*100}% - итог: <strong>${total} L</strong>.</p>\n        <div style="display:flex;gap:8px;margin-top:12px">\n          <button id="confirm-buy" class="cta">Подтвердить - ${total} L</button>\n          <button id="cancel-buy" style="padding:10px;border-radius:10px;border:0;background:#f3f4f6">Отмена</button>\n        </div>\n        <p style="margin-top:12px;font-size:13px;color:var(--muted)">Функция демонстрационная - требует бэкенд.</p>\n      `);
+
+      document.getElementById('confirm-buy').addEventListener('click',()=>{
+        if(STATE.balance < total){showToast('Недостаточно средств');return}
+        // Demo: update balance and history
+        STATE.balance = Math.round((STATE.balance - total)*100)/100;
+        const tx={id:Date.now(),type:'purchase',title:p.title,amount:-total,date:new Date().toLocaleString()};
+        STATE.history.unshift(tx);if(STATE.history.length>50)STATE.history.pop();localStorage.setItem('pp_history',JSON.stringify(STATE.history));
+        updateBalanceUI();showToast('Покупка подтверждена');closeModal();
+      });
+      document.getElementById('cancel-buy').addEventListener('click',closeModal);
     }
 
-    function setActiveDot(i){
-      const dots = dotsWrap.children;
-      for(let j=0;j<dots.length;j++) dots[j].classList.toggle('active', j===i);
+    // === Topup / Transfer / History UI ===
+    document.getElementById('open-profile').addEventListener('click',openWallet);
+    document.getElementById('btn-topup').addEventListener('click',()=>openTopup());
+    document.getElementById('btn-send').addEventListener('click',()=>openSend());
+    document.getElementById('btn-history').addEventListener('click',()=>openHistory());
+
+    function openWallet(){
+      openModal('Профиль / Кошелёк',`\n        <p><strong>Баланс:</strong> <span id="modal-balance">${formatL(STATE.balance)}</span></p>\n        <hr />\n        <h3>Получить перевод</h3>\n        <p>Адрес кошелька: <code>user_pp_artyom</code></p>\n        <h3 style="margin-top:12px">Отправить перевод</h3>\n        <form id="send-form">\n          <label>Получатель (адрес)<br/><input name="to" required placeholder="например: user_pp_ivan"/></label>\n          <label>Сумма (L)<br/><input name="amount" type="number" step="0.01" min="0.01" required/></label>\n          <label>Примечание<br/><input name="note" placeholder="За подарок"/></label>\n          <div style="display:flex;gap:8px;margin-top:8px">\n            <button class="cta" type="submit">Отправить</button>\n            <button id="send-cancel" type="button" style="padding:10px;border-radius:10px;border:0;background:#f3f4f6">Отмена</button>\n          </div>\n        </form>\n        <p style="margin-top:12px;color:var(--muted)">Функция демонстрационная - требуется бэкенд для реальных переводов.</p>\n      `);
+
+      document.getElementById('send-cancel').addEventListener('click',closeModal);
+      document.getElementById('send-form').addEventListener('submit',function(ev){
+        ev.preventDefault();const f=new FormData(ev.target);const to=f.get('to');const amount=Number(f.get('amount'));
+        if(!to||amount<=0){showToast('Ошибка: заполните корректные данные');return}
+        if(amount>STATE.balance){showToast('Ошибка: недостаточно средств');return}
+        // Demo transfer: deduct balance & add history
+        STATE.balance = Math.round((STATE.balance-amount)*100)/100;
+        STATE.history.unshift({id:Date.now(),type:'transfer',title:`Перевод ${to}`,amount:-amount,date:new Date().toLocaleString()});
+        localStorage.setItem('pp_history',JSON.stringify(STATE.history));updateBalanceUI();showToast('Перевод отправлен (демо)');closeModal();
+      });
     }
 
-    function update(){
-      // crossfade: fade out -> change src -> fade in
-      img.classList.add('fade-out');
-      setTimeout(()=>{
-        img.src = gallery[idx];
-        img.onload = ()=>{
-          img.classList.remove('fade-out');
-        };
-        meta.innerText = `Скрин ${idx+1} из ${gallery.length}`;
-        setActiveDot(idx);
-        progress.style.width = '0%';
-      },220);
+    function openTopup(){
+      openModal('Пополнение',`\n        <form id="topup-form">\n          <label>Сумма (L)<br/><input name="amount" type="number" step="0.01" min="1" required/></label>\n          <div style="display:flex;gap:8px;margin-top:8px">\n            <button class="cta" type="submit">Пополнить</button>\n            <button id="topup-cancel" type="button" style="padding:10px;border-radius:10px;border:0;background:#f3f4f6">Отмена</button>\n          </div>\n        </form>\n        <p style="margin-top:12px;color:var(--muted)">Демонстрация: реальная оплата требует сервера и платёжного провайдера.</p>\n      `);
+      document.getElementById('topup-cancel').addEventListener('click',closeModal);
+      document.getElementById('topup-form').addEventListener('submit',function(ev){
+        ev.preventDefault();const f=new FormData(ev.target);const amount=Number(f.get('amount'));
+        if(amount<=0){showToast('Введите корректную сумму');return}
+        // Demo: add to balance
+        STATE.balance = Math.round((STATE.balance + amount)*100)/100;
+        STATE.history.unshift({id:Date.now(),type:'topup',title:'Пополнение',amount:amount,date:new Date().toLocaleString()});localStorage.setItem('pp_history',JSON.stringify(STATE.history));updateBalanceUI();showToast('Счёт пополнен (демо)');closeModal();
+      });
     }
 
-    function next(){ idx = (idx + 1) % gallery.length; update(); }
-    function prev(){ idx = (idx - 1 + gallery.length) % gallery.length; update(); }
-    function goTo(i){ idx = ((i % gallery.length)+gallery.length)%gallery.length; update(); }
+    function openHistory(){
+      const rows = STATE.history.slice(0,5).map(tx=>`<tr><td>${tx.date}</td><td>${tx.title}</td><td style="text-align:right">${tx.amount>0?'+':''}${tx.amount} L</td></tr>`).join('')||'<tr><td colspan="3" style="color:var(--muted)">История пуста</td></tr>';
+      openModal('История транзакций',`<table><thead><tr><th>Дата</th><th>Операция</th><th>Сумма</th></tr></thead><tbody>${rows}</tbody></table><div style="margin-top:8px"><button class="cta" onclick="downloadHistory()">Скачать CSV</button></div>`);
+    }
 
-    nextBtn.addEventListener('click', ()=>{ next(); resetTimer(); });
-    prevBtn.addEventListener('click', ()=>{ prev(); resetTimer(); });
+    function downloadHistory(){
+      const csv = ['date,title,amount',...STATE.history.map(h=>`"${h.date}","${h.title}","${h.amount}"`)].join('\n');
+      const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='history.csv';a.click();URL.revokeObjectURL(url);
+      showToast('CSV скачан (демо)');
+    }
 
-    // keyboard support
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'ArrowRight') { next(); resetTimer(); }
-      if(e.key === 'ArrowLeft') { prev(); resetTimer(); }
+    // === Search & Filters ===
+    document.getElementById('search').addEventListener('input',(e)=>{
+      const q=e.target.value.toLowerCase();filterProducts(q,selectedCat);
     });
+    const clearBtn = document.getElementById('clear-search'); if(clearBtn){clearBtn.addEventListener('click', ()=>{document.getElementById('search').value='';filterProducts('',selectedCat);});}
 
-    // pause on hover/touch
-    let hovering = false;
-    const galleryEl = document.getElementById('gallery');
-    galleryEl.addEventListener('mouseenter', ()=>{ hovering = true; });
-    galleryEl.addEventListener('mouseleave', ()=>{ hovering = false; });
-    galleryEl.addEventListener('touchstart', ()=>{ hovering = true; }, {passive:true});
-    galleryEl.addEventListener('touchend', ()=>{ hovering = false; }, {passive:true});
+    let selectedCat='all';
+    document.querySelectorAll('.filters .chip').forEach(ch=>ch.addEventListener('click',function(){
+      document.querySelectorAll('.filters .chip').forEach(x=>x.classList.remove('active'));
+      this.classList.add('active');selectedCat=this.dataset.cat||'all';filterProducts(document.getElementById('search').value.toLowerCase(),selectedCat);
+    }));
 
-    // auto-rotate with visual progress
-    const ROTATE_MS = 6000;
-    let autoTimer = null;
-    function startTimer(){
-      let start = Date.now();
-      progress.style.transition = 'width 100ms linear';
-      autoTimer = setInterval(()=>{
-        if(hovering) { start = Date.now(); progress.style.width='0%'; return; }
-        const elapsed = Date.now() - start;
-        const pct = Math.min(100, (elapsed / ROTATE_MS) * 100);
-        progress.style.width = pct + '%';
-        if(elapsed >= ROTATE_MS){ next(); start = Date.now(); progress.style.width='0%'; }
-      }, 120);
-    }
-    function resetTimer(){ clearInterval(autoTimer); startTimer(); }
-
-    // init
-    update();
-    startTimer();
-
-    // accessibility: ensure reduced-motion honored
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if(mediaQuery.matches){ clearInterval(autoTimer); progress.style.display='none'; }
-
-    // prefetch other images to make transitions smoother (non-blocking)
-    gallery.forEach((s,i)=>{ if(i===0) return; const im = new Image(); im.src = s; });
-
-    // small UX: when user clicks links to anchors, smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        const target = a.getAttribute('href');
-        if(target.length>1){
-          e.preventDefault();
-          const el = document.querySelector(target);
-          if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-        }
-      });
-    });
-
-    // LAW TABS / ACCORDION logic
-    function setupLawControls(){
-      const buttons = Array.from(document.querySelectorAll('.law-btn'));
-      const panels = Array.from(document.querySelectorAll('.law-panel'));
-
-      function activateTab(btn){
-        buttons.forEach(b=>{ b.classList.toggle('active', b===btn); b.setAttribute('aria-selected', b===btn); b.setAttribute('aria-expanded', 'false'); });
-        panels.forEach(p=>{ p.classList.toggle('active', p.id===btn.dataset.target); p.setAttribute('aria-hidden', p.id===btn.dataset.target? 'false':'true'); });
-        // mark expanded only for mobile (handled later)
-      }
-
-      // initial state: desktop tab active for criminal
-      activateTab(buttons[0]);
-
-      buttons.forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          const isMobile = window.matchMedia('(max-width:1000px)').matches;
-          const targetId = btn.dataset.target;
-          const panel = document.getElementById(targetId);
-
-          if(isMobile){
-            // accordion behavior: toggle clicked panel; close others
-            const wasOpen = panel.classList.contains('active');
-            panels.forEach(p=>{ p.classList.remove('active'); p.setAttribute('aria-hidden','true'); });
-            buttons.forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-expanded','false'); b.setAttribute('aria-selected','false'); });
-            if(!wasOpen){
-              panel.classList.add('active');
-              panel.setAttribute('aria-hidden','false');
-              btn.classList.add('active');
-              btn.setAttribute('aria-expanded','true');
-              btn.setAttribute('aria-selected','true');
-            }
-          } else {
-            // tab behavior
-            activateTab(btn);
-          }
-        });
-      });
-
-      // on resize: if switching modes, ensure sensible default
-      let lastMobile = window.matchMedia('(max-width:1000px)').matches;
-      window.addEventListener('resize', ()=>{
-        const nowMobile = window.matchMedia('(max-width:1000px)').matches;
-        if(nowMobile !== lastMobile){
-          lastMobile = nowMobile;
-          if(nowMobile){
-            // collapse all by default on mobile
-            panels.forEach(p=>{ p.classList.remove('active'); p.setAttribute('aria-hidden','true'); });
-            buttons.forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-expanded','false'); b.setAttribute('aria-selected','false'); });
-          } else {
-            // go back to default tab view (first active)
-            activateTab(buttons[0]);
-          }
-        }
+    function filterProducts(q,cat){
+      document.querySelectorAll('#products .card').forEach(card=>{
+        const title = card.dataset.title.toLowerCase();const c = card.dataset.cat;
+        const matchQ = !q || title.includes(q);
+        const matchCat = (cat==='all' || !cat) ? true : (c===cat);
+        card.style.display = (matchQ && matchCat) ? 'flex' : 'none';
       });
     }
 
-    // run after DOM ready (script is at bottom so it's fine)
-    setupLawControls();
+    // Accessibility: enter on card -> open quick buy modal
+    document.querySelectorAll('.card').forEach(card=>card.addEventListener('keydown',function(e){if(e.key==='Enter'){const btn=this.querySelector('.buy-btn');btn && btn.click()}}));
 
-    // small accessibility for social links: open external in new tab and announce
-    document.querySelectorAll('.socials a[target="_blank"]').forEach(a=>{
-      a.addEventListener('click', ()=>{ /* noop for now, reserved for tracking if needed */ });
+    // === Where server logic needed (developer note shown in console) ===
+    console.warn('WARNING: Demo frontend. Do NOT use for real payments. Implement server-side endpoints: /api/pay, /api/wallet/* with authentication, validation and audit logs.');
+
+    // Extra: show commission on hover by updating CTA text
+    document.querySelectorAll('.card').forEach(card=>{
+      const priceEl = card.querySelector('.L');const base = Number(priceEl.dataset.price);
+      const btn = card.querySelector('.buy-btn');
+      function updateBtn(){btn.textContent = `Купить - ${calcTotal(base)} L`} 
+      card.addEventListener('mouseenter',updateBtn);card.addEventListener('focusin',updateBtn);
+      card.addEventListener('mouseleave',()=>{btn.textContent='Купить'});
     });
 
   </script>
