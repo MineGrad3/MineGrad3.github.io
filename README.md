@@ -203,11 +203,11 @@
           <!-- CARD -->
           <article class="card" data-cat="games" data-title="Cyber Quest" tabindex="0">
             <div class="img-wrap" aria-hidden="true">
-              <img class="product-image" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=60" alt="Игра: Cyber Quest"/>
+              <img class="product-image" src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="Игра: Cyber Quest"/>
             </div>
             <div class="content">
               <h3>Cyber Quest</h3>
-              <p>Приключенческая RPG - ключ Steam. Быстрая доставка.</p>
+              <p>Приключенческая RPG - ключ Steam. Моментальная доставка.</p>
               <div class="meta">
                 <span class="icon" aria-hidden="true"><!-- ICON: gamepad -->
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 14v-4" stroke="#6B46C1" stroke-width="1.6" stroke-linecap="round"/><path d="M18 14v-4" stroke="#6B46C1" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -225,11 +225,11 @@
           <!-- CARD -->
           <article class="card" data-cat="subscriptions" data-title="StreamPlus" tabindex="0">
             <div class="img-wrap" aria-hidden="true">
-              <img class="product-image" src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=60" alt="Подписка: StreamPlus"/>
+              <img class="product-image" src="https://images.unsplash.com/photo-1729860648897-270eddd9026b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="Подписка: StreamPlus"/>
             </div>
             <div class="content">
               <h3>StreamPlus - 1 мес</h3>
-              <p>Новый стриминг с HD. Авто-активация.</p>
+              <p>Новый стриминг с HD на популярных платформах. Авто-активация.</p>
               <div class="meta">
                 <span class="icon" aria-hidden="true"><!-- ICON: play -->
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 3v18l15-9L5 3z" stroke="#6B46C1" stroke-width="0.6" fill="#8B5CF6"/></svg>
@@ -247,7 +247,7 @@
           <!-- CARD -->
           <article class="card" data-cat="food" data-title="SushiBox" tabindex="0">
             <div class="img-wrap" aria-hidden="true">
-              <img class="product-image" src="https://images.unsplash.com/photo-1547592166-0d6b6e004b2a?auto=format&fit=crop&w=800&q=60" alt="Доставка: SushiBox"/>
+              <img class="product-image" src="https://images.unsplash.com/photo-1599513333212-30a0f705b179?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="Доставка: SushiBox"/>
             </div>
             <div class="content">
               <h3>SushiBox - набор</h3>
@@ -269,7 +269,7 @@
           <!-- CARD -->
           <article class="card" data-cat="electronics" data-title="EarPods X" tabindex="0">
             <div class="img-wrap" aria-hidden="true">
-              <img class="product-image" src="https://images.unsplash.com/photo-1518449078750-6c1f9ee8b6a0?auto=format&fit=crop&w=800&q=60" alt="Наушники EarPods X"/>
+              <img class="product-image" src="https://plus.unsplash.com/premium_photo-1679056944603-3a1e03fe68d7?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="Наушники EarPods X"/>
             </div>
             <div class="content">
               <h3>EarPods X</h3>
@@ -291,7 +291,7 @@
           <!-- CARD -->
           <article class="card" data-cat="services" data-title="SafeVPN - 1 год" tabindex="0">
             <div class="img-wrap" aria-hidden="true">
-              <img class="product-image" src="https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=800&q=60" alt="VPN: SafeVPN"/>
+              <img class="product-image" src="https://images.unsplash.com/photo-1603985529862-9e12198c9a60?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="VPN: SafeVPN"/>
             </div>
             <div class="content">
               <h3>SafeVPN - 1 год</h3>
